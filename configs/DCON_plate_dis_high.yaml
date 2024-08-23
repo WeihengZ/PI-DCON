@@ -1,0 +1,14 @@
+model:
+  fc_dim_branch: 512
+  fc_dim: 512
+  N_layer: 3
+  n_head: 1
+
+train:
+  epochs: 3000
+  coor_sampling_size: 100
+  batchsize: 10
+  coor_sampling_freq: 3
+  base_lr: 0.0001
+  bc_weight: 300 # 300 with no normalization is the best, factor=1e-4
+  visual_freq: 20
