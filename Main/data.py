@@ -31,9 +31,9 @@ def generate_darcy_dataloader(config):
     datasize = fbc.shape[0]
 
     # define data loaders
-    bar1 = [0,int(0.7*datasize)]
-    bar2 = [int(0.7*datasize),int(0.8*datasize)]
-    bar3 = [int(0.8*datasize),int(datasize)]
+    bar1 = [0,10] # [0,int(0.7*datasize)]
+    bar2 = [0,10] # [int(0.7*datasize),int(0.8*datasize)]
+    bar3 = [0,10] # [int(0.8*datasize),int(datasize)]
     train_dataset = torch.utils.data.TensorDataset(fbc[bar1[0]:bar1[1],:,:], sol[bar1[0]:bar1[1],:])
     val_dataset = torch.utils.data.TensorDataset(fbc[bar2[0]:bar2[1],:,:], sol[bar2[0]:bar2[1],:])
     test_dataset = torch.utils.data.TensorDataset(fbc[bar3[0]:bar3[1],:,:], sol[bar3[0]:bar3[1],:])

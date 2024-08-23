@@ -2,7 +2,7 @@ import yaml
 import torch
 import argparse
 
-from Main.models import DeepONet_darcy, Improved_DeepOnet_darcy, DCON_darcy
+from models import DeepONet_darcy, Improved_DeepOnet_darcy, DCON_darcy
 from data import generate_darcy_dataloader
 from darcy_utils import train
 
