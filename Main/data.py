@@ -15,7 +15,7 @@ def generate_darcy_dataloader(config):
     '''
 
     # load the data
-    mat_contents = sio.loadmat(r'./data/Darcy_star.mat')
+    mat_contents = sio.loadmat(r'../data/Darcy_star.mat')
     f_bc = mat_contents['BC_input_var']  # (K, N, 3)
     u = mat_contents['u_field']          # (K, M)
     coor = mat_contents['coor']          # (M, 2)

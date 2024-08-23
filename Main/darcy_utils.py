@@ -120,7 +120,7 @@ def test(model, loader, coors, device, args):
     plt.scatter(coor_x, coor_y, c=np.abs(best_f-best_gt), cmap=cm, vmin=0, vmax=max_color, marker='o', s=5)
     plt.title('Absolute Error (best case)', fontsize=15)
     plt.colorbar()
-    plt.savefig(r'./res/plots/sample_{}_{}.png'.format(args.model, args.data))
+    plt.savefig(r'../res/plots/sample_{}_{}.png'.format(args.model, args.data))
 
     return mean_relative_L2
 
@@ -228,7 +228,7 @@ def train(args, config, model, device, loaders, coors, BC_flags):
 
                 # save the model if new lowest validation err is seen
                 if err < min_val_err:
-                    torch.save(model.state_dict(), r'./res/saved_models/best_model_{}_{}.pkl'.format(args.data, args.model))
+                    torch.save(model.state_dict(), r'../res/saved_models/best_model_{}_{}.pkl'.format(args.data, args.model))
                     min_val_err = err
 
             # train one epoch
@@ -274,7 +274,7 @@ def train(args, config, model, device, loaders, coors, BC_flags):
                     optimizer.step()
 
     # final model test
-    model.load_state_dict(torch.load(r'./res/saved_models/best_model_{}_{}.pkl'.format(args.data, args.model)))   
+    model.load_state_dict(torch.load(r'../res/saved_models/best_model_{}_{}.pkl'.format(args.data, args.model)))   
     model.eval()
     err = test(model, test_loader, coors, device, args)
     print('Best L2 relative error on test loader:', err)
