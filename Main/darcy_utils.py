@@ -8,6 +8,9 @@ import numpy as np
 
 # Define physics-informed loss loss
 def darcy_loss(u, x_coor, y_coor):
+    '''
+    PDE residual = u_xx + u_yy + 10, where 10 is the constant uniform forcing term
+    '''
 
     # define loss
     mse = nn.MSELoss()
@@ -210,6 +213,12 @@ def train(args, config, model, device, loaders, coors, BC_flags):
 
     # move the model to the defined device
     model = model.to(device)
+
+    # try loading the pre-trained model
+    try:
+        model.load_state_dict(torch.load(r'../res/saved_models/best_model_{}_{}.pkl'.format(args.data, args.model), map_location=device))   
+    except:
+        print('No pre-trained model found.')
 
     # start the training
     if args.phase == 'train':

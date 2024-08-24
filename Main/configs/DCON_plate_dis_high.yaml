@@ -5,7 +5,7 @@ model:
   n_head: 1
 
 train:
-  epochs: 3000
+  epochs: 1
   coor_sampling_size: 100
   batchsize: 10
   coor_sampling_freq: 3
