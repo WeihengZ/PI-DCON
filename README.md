@@ -4,6 +4,8 @@ This repository is the official implementation of the paper: [Physics-informed d
 
 Our research explores physics-informed machine learning methods for **irregular domain geometries**, where PDE parameters are represented as a set of function value observations of any size, making the approach **discretization-independent**. In this paper, we introduce the first neural operator model that is discretization-independent and capable of addressing this scenario. However, the model architecture we propose in this paper is intentionally kept straightforward, and we encourage researchers to explore and develop more advanced architectures to further enhance this approach. 
 
+## Overview
+
 If you're interested in using our well-trained model, please refer to the "Implementation of our paper" section. For those with similar research interests looking to explore more advanced model architectures and training algorithms, please check the "New model exploration" section. This work is also one of our work for developing **Neural Operators as Foundation Model for solving PDEs**. Please feel free to check out our [main github](https://github.com/WeihengZ/Physics-informed-Neural-Foundation-Operator) as well if you are interested! We are excited to see more and more interesting ideas coming out for this research goal!
 
 ## Implementation of our paper
@@ -47,7 +49,7 @@ python exp_pinn_plate.py --model='self_defined' --phase='train'
 
 If you are interested in developing more advanced training algorithms, please check our the script "darcy_utils.py" and "plate_utils.py".
 
-**If you think that the work of the PI-DCON is useful in your research, please consider citing our paper in your manuscript:**
+*If you think that the work of the PI-DCON is useful in your research, please consider citing our paper in your manuscript:*
 ```
 @article{zhong2024physics,
   title={Physics-informed discretization-independent deep compositional operator network},
