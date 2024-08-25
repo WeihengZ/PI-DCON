@@ -6,7 +6,7 @@ Our research explores physics-informed machine learning methods for **irregular 
 
 ## Overview
 
-If you're interested in using our well-trained model, please refer to the "Implementation of our paper" section. For those with similar research interests looking to explore more advanced model architectures and training algorithms, please check the "New model exploration" section. This work is also one of our work for developing **Neural Operators as Foundation Model for solving PDEs**. Please feel free to check out our [main github](https://github.com/WeihengZ/Physics-informed-Neural-Foundation-Operator) as well if you are interested! We are excited to see more and more interesting ideas coming out for this research goal!
+If you're interested in using our well-trained model, please refer to the "Implementation of our paper" section. For those with similar research interests looking to explore more advanced model architectures and training algorithms, please check the "New model exploration" section. This work is also one of our work for developing ****Neural Operators as Foundation Model for solving PDEs****. Please feel free to check out our [main github](https://github.com/WeihengZ/Physics-informed-Neural-Foundation-Operator) as well if you are interested! We are excited to see more and more interesting ideas coming out for this research goal!
 
 ## Implementation of our paper
 
