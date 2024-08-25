@@ -1,0 +1,7 @@
+matplotlib
+numpy
+PyYAML==6.0.2
+scipy
+tqdm==4.66.2
+torch==2.4.0
+

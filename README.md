@@ -6,11 +6,16 @@ Our research explores physics-informed machine learning methods for **irregular 
 
 ## Overview
 
-If you're interested in using our well-trained model, please refer to the "Implementation of our paper" section. For those with similar research interests looking to explore more advanced model architectures and training algorithms, please check the "New model exploration" section. This work is also one of our work for developing ****Neural Operators as Foundation Model for solving PDEs****. Please feel free to check out our [main github](https://github.com/WeihengZ/Physics-informed-Neural-Foundation-Operator) as well if you are interested! We are excited to see more and more interesting ideas coming out for this research goal!
+If you're interested in using our well-trained model, please refer to the "Implementation of our paper" section. For those with similar research interests looking to explore more advanced model architectures and training algorithms, please check the "New model exploration" section. This work is also one of our work for developing **Neural Operators as Foundation Model for solving PDEs**. Please feel free to check out our [main github](https://github.com/WeihengZ/Physics-informed-Neural-Foundation-Operator) as well if you are interested! We are excited to see more and more interesting ideas coming out for this research goal!
 
 ## Implementation of our paper
 
 If you want to reproduce the results of our paper, please first download our [dataset](https://drive.google.com/drive/folders/10c5BWVvd-Oj13tMGhE07Tau07aTWfOhM?usp=sharing) into the folder named "data", and download our [well-trained models](https://drive.google.com/drive/folders/1NFUTkvSoubaTnrcjHf0R29J66E-uJEBz?usp=sharing) into the folder named "res/saved_models". 
+
+After preparing all the data and well-trained models, you need to first install all the required python package (with the Python>=3.8 is preferred) by
+```
+pip install -r requirements.txt
+```
 
 Then you can evaluate the prediction accuracy of our proposed DCON model in the testing dataset for the darcy problem and 2D plate stress problem with the following commands:
 ```
@@ -49,7 +54,7 @@ python exp_pinn_plate.py --model='self_defined' --phase='train'
 
 If you are interested in developing more advanced training algorithms, please check our the script "darcy_utils.py" and "plate_utils.py".
 
-****If you think that the work of the PI-DCON is useful in your research, please consider citing our paper in your manuscript:****
+**If you think that the work of the PI-DCON is useful in your research, please consider citing our paper in your manuscript:**
 ```
 @article{zhong2024physics,
   title={Physics-informed discretization-independent deep compositional operator network},
