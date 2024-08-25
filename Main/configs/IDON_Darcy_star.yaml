@@ -3,7 +3,7 @@ model:
   N_layer: 3
 
 train:
-  epochs: 3000
+  epochs: 200
   coor_sampling_size: 500
   batchsize: 20
   coor_sampling_freq: 3

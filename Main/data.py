@@ -40,7 +40,7 @@ def generate_darcy_dataloader(config):
     test_dataset = torch.utils.data.TensorDataset(fbc[bar3[0]:bar3[1],:,:], sol[bar3[0]:bar3[1],:])
     train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=config['train']['batchsize'], shuffle=True)
     val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=config['train']['batchsize'], shuffle=False)
-    test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=config['train']['batchsize'], shuffle=False)
+    test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=2, shuffle=False)
 
     return coors, BC_flags, num_bc_nodes, train_loader, val_loader, test_loader
 
@@ -83,6 +83,6 @@ def generate_plate_dataloader(config):
     test_dataset = torch.utils.data.TensorDataset(params[bar3[0]:bar3[1],:,:], u[bar3[0]:bar3[1],:], v[bar3[0]:bar3[1],:])
     train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=config['train']['batchsize'], shuffle=True)
     val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=config['train']['batchsize'], shuffle=False)
-    test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=config['train']['batchsize'], shuffle=False)
+    test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=2, shuffle=False)
 
     return coors, train_loader, val_loader, test_loader, youngs, nu, num_bc_nodes, flag_BCxy, flag_BCy, flag_load

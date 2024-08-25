@@ -10,7 +10,7 @@ from darcy_utils import train
 parser = argparse.ArgumentParser(description='command setting')
 parser.add_argument('--phase', type=str, default='train')
 parser.add_argument('--data', type=str, default='Darcy_star')
-parser.add_argument('--model', type=str, default='DCON')
+parser.add_argument('--model', type=str, default='DON')
 args = parser.parse_args()
 print('Model forward phase: {}'.format(args.phase))
 print('Using dataset: {}'.format(args.data))

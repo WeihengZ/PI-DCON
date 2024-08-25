@@ -82,11 +82,10 @@ def test(model, loader, coors, device, args):
             best_gt = out[min_err_idx,:].detach().cpu().numpy()
 
         # compute average error
-        mean_relative_L2 += torch.sum(L2_relative)
+        mean_relative_L2 += torch.sum(L2_relative).detach().cpu().item()
         num += par.shape[0]
 
     mean_relative_L2 /= num
-    mean_relative_L2 = mean_relative_L2.detach().cpu().item()
 
     # make the coordinates to numpy
     coor_x = test_coor_x[0].detach().cpu().numpy()

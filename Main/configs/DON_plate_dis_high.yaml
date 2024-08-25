@@ -3,10 +3,10 @@ model:
   N_layer: 3
 
 train:
-  epochs: 100
+  epochs: 200
   coor_sampling_size: 100
   batchsize: 10
   coor_sampling_freq: 3
   base_lr: 0.0001
-  bc_weight: 300 # 300 with no normalization is the best, factor=1e-4
+  bc_weight: 10 
   visual_freq: 20

@@ -113,11 +113,10 @@ def test(model, loader, coors, device, args):
             best_gt = u[min_err_idx,:].detach().cpu().numpy()
 
         # store mean relative error
-        mean_relative_L2 += torch.sum(L2_relative)
+        mean_relative_L2 += torch.sum(L2_relative).detach().cpu().item()
         num += u.shape[0]
 
     mean_relative_L2 /= num
-    mean_relative_L2 = mean_relative_L2.detach().cpu().item()
 
     # make the coordinates to numpy
     coor_x = test_coor_x[0].detach().cpu().numpy()
@@ -162,8 +161,8 @@ def test(model, loader, coors, device, args):
 def val(model, loader, coors, device):
 
     # split the coordinates
-    test_coor_x = coors[:, 0].unsqueeze(0)
-    test_coor_y = coors[:, 1].unsqueeze(0)
+    test_coor_x = coors[:, 0].unsqueeze(0).float().to(device)
+    test_coor_y = coors[:, 1].unsqueeze(0).float().to(device)
 
     mean_relative_L2 = 0
     num = 0
@@ -177,8 +176,6 @@ def val(model, loader, coors, device):
 
         # model forward
         u_pred, v_pred = model(test_coor_x.repeat(batch,1), test_coor_y.repeat(batch,1), par)
-        u_pred = u_pred.detach().cpu()
-        v_pred = v_pred.detach().cpu()
         L2_relative = torch.sqrt(torch.sum((u_pred-u)**2 + (v_pred-v)**2, -1)) / torch.sqrt(torch.sum((u)**2 + (v)**2, -1))
 
         # compute relative error
@@ -235,17 +232,16 @@ def train(args, config, model, device, loaders, coors, flag_BCxy, flag_BCy, flag
     # visual frequency for evaluation and store the updated model parameters
     vf = config['train']['visual_freq']
 
-    # initialize the train loss
-    # initialize them all to a finite number, for weight adjustment
+    # move the model to the defined device
+    model = model.to(device)
+
+    # initialize recored loss values
     avg_loss1 = np.inf
     avg_loss2 = np.inf
     avg_loss3 = np.inf
     avg_loss4 = np.inf
     avg_loss5 = np.inf
     avg_loss6 = np.inf
-
-    # move the model to the defined device
-    model = model.to(device)
 
     # try loading the pre-trained model
     try:
@@ -254,12 +250,7 @@ def train(args, config, model, device, loaders, coors, flag_BCxy, flag_BCy, flag
         print('No pre-trained model found.')
 
     # define the training weight
-    weight1 = 1
-    weight2 = 1
-    weight3 = 1
-    weight4 = 1
-    weight5 = 1
-    weight6 = 1
+    weight_bc = config['train']['bc_weight']
 
     # start the training
     if args.phase == 'train':
@@ -271,14 +262,6 @@ def train(args, config, model, device, loaders, coors, flag_BCxy, flag_BCy, flag
                 model.eval()
                 err, pointwise_err = val(model, val_loader, coors, device)
 
-                # recored loss values
-                avg_loss1 = avg_loss1 / vf
-                avg_loss2 = avg_loss2 / vf
-                avg_loss3 = avg_loss3 / vf
-                avg_loss4 = avg_loss4 / vf
-                avg_loss5 = avg_loss5 / vf
-                avg_loss6 = avg_loss6 / vf
-
                 print('Best L2 relative error:', err)
                 print('x-direction prescribed displacement loss', avg_loss1)
                 print('y-direction prescribed displacement loss:', avg_loss2)
@@ -289,6 +272,14 @@ def train(args, config, model, device, loaders, coors, flag_BCxy, flag_BCy, flag
                 if err < min_val_err:
                     torch.save(model.state_dict(), r'../res/saved_models/best_model_{}_{}.pkl'.format(args.data, args.model))
                     min_val_err = err
+                
+                # update recored loss values
+                avg_loss1 = 0
+                avg_loss2 = 0
+                avg_loss3 = 0
+                avg_loss4 = 0
+                avg_loss5 = 0
+                avg_loss6 = 0
 
             # train one epoch
             model.train()
@@ -339,8 +330,7 @@ def train(args, config, model, device, loaders, coors, flag_BCxy, flag_BCy, flag
                     bc_loss4 = torch.mean(sigma_yy**2) + torch.mean(sigma_xy**2) 
                     pde_loss1 = torch.mean(rx_pde**2)
                     pde_loss2 = torch.mean(ry_pde**2) 
-                    total_loss = weight1*bc_loss1 + weight2*bc_loss2 + weight3*bc_loss3 +\
-                                 weight4*bc_loss4 + weight5*pde_loss1 + weight6*pde_loss2
+                    total_loss = (bc_loss1 + bc_loss2 + bc_loss3 + bc_loss4) + (pde_loss1 + pde_loss2) * weight_bc
 
                     # store the loss
                     avg_loss1 += bc_loss1.detach().cpu().item()
