@@ -49,7 +49,7 @@ python exp_pinn_plate.py --model='self_defined' --phase='train'
 
 If you are interested in developing more advanced training algorithms, please check our the script "darcy_utils.py" and "plate_utils.py".
 
-*If you think that the work of the PI-DCON is useful in your research, please consider citing our paper in your manuscript:*
+***If you think that the work of the PI-DCON is useful in your research, please consider citing our paper in your manuscript:***
 ```
 @article{zhong2024physics,
   title={Physics-informed discretization-independent deep compositional operator network},
