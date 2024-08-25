@@ -2,7 +2,7 @@ import yaml
 import torch
 
 from data import generate_plate_dataloader
-from models import DeepONet_plate, Improved_DeepONet_plate, DCON_plate
+from models import DeepONet_plate, Improved_DeepONet_plate, DCON_plate, New_model_plate
 from plate_utils import train
 import argparse
 
@@ -35,6 +35,8 @@ if args.model == 'DON':
     model = DeepONet_plate(config, num_bc_nodes)
 if args.model == 'IDON':
     model = Improved_DeepONet_plate(config, num_bc_nodes)
+if args.model == 'self_defined':
+    model = New_model_plate(config)
 
 # model training
 train(args, config, model, device, (train_loader, val_loader, test_loader), coors, flag_BCxy, flag_BCy, flag_load, [youngs, nu])

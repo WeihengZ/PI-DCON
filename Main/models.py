@@ -28,8 +28,8 @@ class DeepONet_darcy(nn.Module):
     def forward(self, x_coor, y_coor, par):
         '''
         model input:
-            x_coor (B, M, 1): x-axis coordinates of the collocation points
-            y_coor (B, M, 1): y-axis coordinates of the collocation points
+            x_coor (B, M): x-axis coordinates of the collocation points
+            y_coor (B, M): y-axis coordinates of the collocation points
             par (B, N, 3): boundary coordinates and the function values, each row is (x,y,u) of one collocation point
                            N is the total number of BC points
         
@@ -72,8 +72,8 @@ class Improved_DeepOnet_darcy(nn.Module):
     def forward(self, x_coor, y_coor, par):
         '''
         model input:
-            x_coor (B, M, 1): x-axis coordinates of the collocation points
-            y_coor (B, M, 1): y-axis coordinates of the collocation points
+            x_coor (B, M): x-axis coordinates of the collocation points
+            y_coor (B, M): y-axis coordinates of the collocation points
             par (B, N, 3): boundary coordinates and the function values, each row is (x,y,u) of one collocation point
                            N is the total number of BC points
         
@@ -134,8 +134,8 @@ class DCON_darcy(nn.Module):
     def forward(self, x_coor, y_coor, par):
         '''
         model input:
-            x_coor (B, M, 1): x-axis coordinates of the collocation points
-            y_coor (B, M, 1): y-axis coordinates of the collocation points
+            x_coor (B, M): x-axis coordinates of the collocation points
+            y_coor (B, M): y-axis coordinates of the collocation points
             par (B, N, 3): boundary coordinates and the function values, each row is (x,y,u) of one collocation point
                            N is the total number of BC points
         
@@ -161,7 +161,34 @@ class DCON_darcy(nn.Module):
         u = torch.mean(u * enc, -1)   
 
         return u
+
+class New_model_darcy(nn.Module):
+    def __init__(self, config):
+        super().__init__()
+        
+        self.fc = nn.Sequential(
+            nn.Linear(2,128), nn.Tanh(),
+            nn.Linear(128,1)
+        )
     
+    def forward(self, x_coor, y_coor, par):
+        '''
+        model input:
+            x_coor (B, M): x-axis coordinates of the collocation points
+            y_coor (B, M): y-axis coordinates of the collocation points
+            par (B, N, 3): boundary coordinates and the function values, each row is (x,y,u) of one collocation point
+                           N is the total number of BC points
+        
+        model output:
+            u (B, M): PDE solution fucntion values over the whole domain
+        '''
+
+        u = self.fc(torch.cat((x_coor.unsqueeze(-1), y_coor.unsqueeze(-1)), -1)).squeeze(-1)
+
+        return u
+
+
+
 '''
 Neural operator models for 2D plate problem
 '''
@@ -211,8 +238,8 @@ class DeepONet_plate(nn.Module):
     def forward(self, x_coor, y_coor, par):
         '''
         model input:
-            x_coor (B, M, 1): x-axis coordinates of the collocation points
-            y_coor (B, M, 1): y-axis coordinates of the collocation points
+            x_coor (B, M): x-axis coordinates of the collocation points
+            y_coor (B, M): y-axis coordinates of the collocation points
             par (B, N, 3): boundary coordinates and the function values, each row is (x,y,u) of one collocation point
                            N is the total number of BC points
         
@@ -260,12 +287,14 @@ class Improved_DeepONet_plate(nn.Module):
         
     def forward(self, x_coor, y_coor, par):
         '''
-        par: (B, M', 3)
-        x_coor: (B, M)
-        y_coor: (B, M)
-        z_coor: (B, M)
-
-        return u: (B, M)
+        model input:
+            x_coor (B, M): x-axis coordinates of the collocation points
+            y_coor (B, M): y-axis coordinates of the collocation points
+            par (B, N, 3): boundary coordinates and the function values, each row is (x,y,u) of one collocation point
+                           N is the total number of BC points
+        
+        model output:
+            u (B, M): PDE solution fucntion values over the whole domain
         '''
 
         # get the coordinates
@@ -338,12 +367,14 @@ class DCON_plate(nn.Module):
         
     def forward(self, x_coor, y_coor, par):
         '''
-        par: (B, M', 3)
-        x_coor: (B, M)
-        y_coor: (B, M)
-        z_coor: (B, M)
-
-        return u: (B, M)
+        model input:
+            x_coor (B, M): x-axis coordinates of the collocation points
+            y_coor (B, M): y-axis coordinates of the collocation points
+            par (B, N, 3): boundary coordinates and the function values, each row is (x,y,u) of one collocation point
+                           N is the total number of BC points
+        
+        model output:
+            u (B, M): PDE solution fucntion values over the whole domain
         '''
 
         # get the kernel
@@ -372,5 +403,35 @@ class DCON_plate(nn.Module):
         v = v * enc
         v = self.FC3v(v)   
         v = torch.mean(v * enc, -1)    # (B, M)
+
+        return u, v
+
+class New_model_plate(nn.Module):
+    def __init__(self, config):
+        super().__init__()
+        
+        self.fc1 = nn.Sequential(
+            nn.Linear(2,128), nn.Tanh(),
+            nn.Linear(128,1)
+        )
+        self.fc2 = nn.Sequential(
+            nn.Linear(2,128), nn.Tanh(),
+            nn.Linear(128,1)
+        )
+    
+    def forward(self, x_coor, y_coor, par):
+        '''
+        model input:
+            x_coor (B, M): x-axis coordinates of the collocation points
+            y_coor (B, M): y-axis coordinates of the collocation points
+            par (B, N, 3): boundary coordinates and the function values, each row is (x,y,u) of one collocation point
+                           N is the total number of BC points
+        
+        model output:
+            u (B, M): PDE solution fucntion values over the whole domain
+        '''
+
+        u = self.fc1(torch.cat((x_coor.unsqueeze(-1), y_coor.unsqueeze(-1)), -1)).squeeze(-1)
+        v = self.fc2(torch.cat((x_coor.unsqueeze(-1), y_coor.unsqueeze(-1)), -1)).squeeze(-1)
 
         return u, v

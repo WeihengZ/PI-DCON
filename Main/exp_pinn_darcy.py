@@ -2,7 +2,7 @@ import yaml
 import torch
 import argparse
 
-from models import DeepONet_darcy, Improved_DeepOnet_darcy, DCON_darcy
+from models import DeepONet_darcy, Improved_DeepOnet_darcy, DCON_darcy, New_model_darcy
 from data import generate_darcy_dataloader
 from darcy_utils import train
 
@@ -30,6 +30,8 @@ if args.model == 'DON':
     model = DeepONet_darcy(config, num_bc_nodes)
 if args.model == 'IDON':
     model = Improved_DeepOnet_darcy(config, num_bc_nodes)
+if args.model == 'self_defined':
+    model = New_model_darcy(config)
 
 # define device
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
