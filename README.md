@@ -2,7 +2,7 @@
 
 This repository is the official implementation of the paper: [Physics-informed discretization-independent deep compositional operator network](https://www.sciencedirect.com/science/article/abs/pii/S0045782524005309), published in Journal of Computer Methods in Applied Mechanics and Engineering. The arxiv version of paper can also be found [here](https://arxiv.org/html/2404.13646v1).
 
-Our research explores physics-informed machine learning methods for **irregular domain geometries**, where PDE parameters are represented as a set of function value observations of any size, making the approach **discretization-independent**. In this paper, we introduce the first neural operator model that is discretization-independent and capable of addressing this scenario. However, the model architecture we propose in this paper is intentionally kept straightforward, and we encourage researchers to explore and develop more advanced architectures to further enhance this approach. 
+Our research explores physics-informed machine learning methods for <span style="color: green"> **irregular domain geometries** </span>, where PDE parameters are represented as a set of function value observations of any size, making the approach **discretization-independent**. In this paper, we introduce the first neural operator model that is discretization-independent and capable of addressing this scenario. However, the model architecture we propose in this paper is intentionally kept straightforward, and we encourage researchers to explore and develop more advanced architectures to further enhance this approach. 
 
 ## Overview
 
